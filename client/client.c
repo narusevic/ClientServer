@@ -56,7 +56,7 @@ int main(int argc , char *argv[])
         puts("Server reply :");
         puts(server_reply);
     }
-     
+    
     close(sock);
     return 0;
 }

@@ -66,7 +66,7 @@ int main(int argc , char *argv[])
         }
          
         //Now join the thread , so that we dont terminate before the thread
-        //pthread_join( sniffer_thread , NULL);
+        pthread_join( sniffer_thread , NULL);
         puts("Handler assigned");
     }
      
@@ -114,6 +114,7 @@ void *connection_handler(void *socket_desc)
     }
          
     //Free the socket pointer
+    close(sock);
     free(socket_desc);
      
     return 0;
