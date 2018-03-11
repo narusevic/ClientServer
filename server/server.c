@@ -91,15 +91,10 @@ void *connection_handler(void *socket_desc)
 
     //Receive a message from client
     while((read_size = recv(sock, client_message, receive_size, 0)) > 0)
-    {
+    {                
         //Send the message back to client
         write(sock, client_message, strlen(client_message));
-
-        int i;
-        for (i = 0; i < receive_size; i++)
-        {
-            client_message[i] = '\0';
-        }
+        memset(client_message,0,strlen(client_message));
     }
      
     if(read_size == 0)

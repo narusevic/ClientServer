@@ -40,6 +40,7 @@ int main(int argc , char *argv[])
     //keep communicating with server
     while(1)
     {
+        memset(server_reply,0,strlen(server_reply));
         scanf("%s" , message);
          
         //Send some data
@@ -48,7 +49,7 @@ int main(int argc , char *argv[])
             puts("Siuntimo klaida");
             return 1;
         }
-         
+        
         //Receive a reply from the server
         if(recv(sock , server_reply, 2000 , 0) < 0)
         {
