@@ -95,15 +95,13 @@ void *connection_handler(void *socket_desc)
 
     //Receive a message from client
     while((read_size = recv(sock, client_message, receive_size, 0)) > 0)
-    {                
+    {
         int number = atoi(client_message);
-
         memset(client_message,0,strlen(client_message));
 
         if (number == 0)
         {
             write(sock, error_message, strlen(error_message));
-            memset(error_message,0,strlen(error_message));
             continue;
         }
 
