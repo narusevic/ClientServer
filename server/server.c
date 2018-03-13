@@ -12,6 +12,7 @@
 #include <pthread.h>
  
 void *connection_handler(void *);
+char *itoa(int val, int base);
  
 int main(int argc , char *argv[])
 {
@@ -88,13 +89,30 @@ void *connection_handler(void *socket_desc)
     int read_size;
     int receive_size = 2000;
     char client_message[receive_size];
+    char* sum_message;
+    int sum = 0;
+    char* error_message = "Ivedete 0 arba ne skaiciu";
 
     //Receive a message from client
     while((read_size = recv(sock, client_message, receive_size, 0)) > 0)
     {                
-        //Send the message back to client
-        write(sock, client_message, strlen(client_message));
+        int number = atoi(client_message);
+
         memset(client_message,0,strlen(client_message));
+
+        if (number == 0)
+        {
+            write(sock, error_message, strlen(error_message));
+            memset(error_message,0,strlen(error_message));
+            continue;
+        }
+
+        sum += number;
+        sum_message = itoa(sum, 10);
+
+        write(sock, sum_message, strlen(sum_message));
+
+        memset(sum_message,0,strlen(sum_message));
     }
      
     if(read_size == 0)
@@ -112,4 +130,18 @@ void *connection_handler(void *socket_desc)
     free(socket_desc);
      
     return 0;
+}
+
+char* itoa(int val, int base){
+    
+    static char buf[32] = {0};
+    
+    int i = 30;
+    
+    for(; val && i ; --i, val /= base)
+    
+        buf[i] = "0123456789abcdef"[val % base];
+    
+    return &buf[i+1];
+    
 }
